@@ -22,7 +22,7 @@ This project uses the following tools:
 ```text
 ML-Framework-Lab/
 ├─ ML_lab/
-│  └─ Check.py          
+│  └─ check_env.py          
 ├─ .venv/               
 ├─ .gitignore
 ├─ .python-version     
@@ -41,7 +41,7 @@ ML-Framework-Lab/
 
 ```bash
 uv sync
-uv run python ML_lab/Check.py
+uv run python ML_lab/check_env.py
 ```
 ---
 
@@ -57,4 +57,4 @@ This is configured through the `tool.uv.index` section in `pyproject.toml`:
 - `https://download.pytorch.org/whl/test/cu128`
 
 If the computer does not have an NVIDIA GPU or CUDA drivers, the project still runs on CPU.  
-The script `ML_lab/Check.py` prints whether CUDA is available.
+The script `ML_lab/check-env.py` prints whether CUDA is available.

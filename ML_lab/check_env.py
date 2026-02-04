@@ -18,7 +18,7 @@ def main():
     ipykernel: {ipykernel.__version__} 
 
 """)
-    print("\n--- Hardware / Accelerator ---")
+    print("\n*****Hardware / Accelerator*****")
     cuda_available = torch.cuda.is_available()
     print(f"CUDA available: {cuda_available}")
 
