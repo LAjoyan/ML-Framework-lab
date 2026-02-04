@@ -27,6 +27,13 @@ def main():
         print(f"GPU: {torch.cuda.get_device_name(0)}")
     print(f"Using device: {device}\n")
 
+    print("*****Tensor calculation*****")
+    x = torch.randn(1000, 1000, device=device)
+    y = x @ x
+    if cuda_available:
+        torch.cuda.synchronize()
+    print(f"Result mean: {y.mean().item():.6f}")
+
 
 if __name__ == "__main__":
     main()
