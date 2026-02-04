@@ -22,6 +22,11 @@ def main():
     cuda_available = torch.cuda.is_available()
     print(f"CUDA available: {cuda_available}")
 
+    device = "cuda" if cuda_available else "cpu"
+    if cuda_available:
+        print(f"GPU: {torch.cuda.get_device_name(0)}")
+    print(f"Using device: {device}\n")
+
 
 if __name__ == "__main__":
     main()
