@@ -6,6 +6,7 @@ This project demonstrates how to set up an isolated and reproducible machine lea
 
 The purpose of this lab is to show how modern tools can be used to create a consistent and reproducible environment for machine learning development.
 ---
+
 ## Tools and Technologies
 
 This project uses the following tools:
@@ -57,4 +58,38 @@ This is configured through the `tool.uv.index` section in `pyproject.toml`:
 - `https://download.pytorch.org/whl/test/cu128`
 
 If the computer does not have an NVIDIA GPU or CUDA drivers, the project still runs on CPU.  
-The script `ML_lab/check-env.py` prints whether CUDA is available.
+The script `ML_lab/check_env.py` prints whether CUDA is available.
+
+If CUDA is not available, the script will automatically fall back to CPU.
+
+## ✍️ Reflection
+
+During this project, I learned how important it is to have a correctly configured and reproducible development environment.
+
+A major challenge was installing PyTorch with GPU support, because my RTX 50-series GPU required a test build with CUDA 12.8. The standard installation did not work. This helped me understand how hardware and software compatibility affects machine learning workflows.
+
+The verification script is intentionally simple. It focuses on:
+
+- Checking the Python version
+
+- Verifying installed package versions
+
+- Detecting available hardware (CUDA or CPU)
+
+- Running a small tensor calculation
+
+I did not use advanced error handling (try/except), because if the environment is incorrectly set up, the script should fail clearly. This makes problems easier to detect.
+
+If CUDA is not available, the script automatically falls back to CPU. This allows the project to run on different computers without modification.
+
+For larger projects, possible improvements would be:
+
+- Adding more detailed error messages
+
+- Separating checks into functions
+
+- Verifying CUDA driver versions
+
+- Using CI to automatically test the environment
+
+This project helped me understand dependency management, reproducibility, and troubleshooting of machine learning environments.
