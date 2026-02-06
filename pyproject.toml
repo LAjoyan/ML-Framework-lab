@@ -18,7 +18,7 @@ dependencies = [
 index-strategy = "unsafe-best-match"
 
 [[tool.uv.index]]
-url = "https://download.pytorch.org/whl/test/cu128"
+url = "https://download.pytorch.org/whl/cu128"
 default = true
 
 [[tool.uv.index]]
