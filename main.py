@@ -1,6 +1,5 @@
 def main():
-    print("Hello from ml-framework-lab!")
-
+    print("Pipeline entrypoint OK ✅")
 
 if __name__ == "__main__":
     main()
