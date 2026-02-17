@@ -3,6 +3,7 @@ import yaml
 
 from src.dataset import get_dataloaders
 
+
 def load_config(path):
     with open(path, "r") as f:
         return yaml.safe_load(f)
@@ -18,9 +19,13 @@ def main():
     print("Loaded config:")
     print(config)
 
-    train_loader, test_loader = get_dataloaders(config)
+    train_loader, val_loader = get_dataloaders(config)
+
     x, y = next(iter(train_loader))
     print("Train batch:", x.shape, y.shape)
+
+    xv, yv = next(iter(val_loader))
+    print("Val batch:", xv.shape, yv.shape)
 
 
 if __name__ == "__main__":
