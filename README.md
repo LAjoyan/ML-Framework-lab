@@ -93,3 +93,27 @@ For larger projects, possible improvements would be:
 - Using CI to automatically test the environment
 
 This project helped me understand dependency management, reproducibility, and troubleshooting of machine learning environments.
+
+## Data Version Control (DVC)
+
+This project uses DVC to track and version the dataset.
+
+The raw data is stored in an AWS S3 bucket and is not included in Git.
+
+### Setup
+
+After cloning the repository, download the dataset with:
+
+```bash
+dvc pull
+```
+
+This will fetch the data from the configured S3 remote.
+
+### Notes
+
+* Raw data is stored in data/raw/
+
+* Dataset files are tracked using DVC
+
+* Large files are not committed to Git
