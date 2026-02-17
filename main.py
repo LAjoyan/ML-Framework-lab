@@ -1,6 +1,7 @@
 import argparse
 import yaml
 
+from src.dataset import get_dataloaders
 
 def load_config(path):
     with open(path, "r") as f:
@@ -16,6 +17,10 @@ def main():
 
     print("Loaded config:")
     print(config)
+
+    train_loader, test_loader = get_dataloaders(config)
+    x, y = next(iter(train_loader))
+    print("Train batch:", x.shape, y.shape)
 
 
 if __name__ == "__main__":
