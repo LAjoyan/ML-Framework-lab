@@ -11,5 +11,6 @@ dependencies = [
   "scikit-learn>=1.8.0",
   "torch",
   "dvc[s3]>=3.66.1",
+  "torchvision>=0.25.0",
 ]
 
