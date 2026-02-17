@@ -1,9 +1,12 @@
 import argparse
 import yaml
+import torch
+import torch.nn as nn
+import torch.optim as optim
 
 from src.dataset import get_dataloaders
 from src.model import SimpleCnn
-import torch
+from src.train import train_one_epoch, evaluate
 
 
 def load_config(path):
@@ -23,19 +26,32 @@ def main():
 
     train_loader, val_loader = get_dataloaders(config)
 
-    x, y = next(iter(train_loader))
-    print("Train batch:", x.shape, y.shape)
-
-    xv, yv = next(iter(val_loader))
-    print("Val batch:", xv.shape, yv.shape)
-
     model = SimpleCnn(num_classes=10)
 
-    x, y = next(iter(train_loader))
-    logits = model(x)
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    model = model.to(device)
 
-    print("Forward pass:")
-    print("logits shape:", logits.shape)
+    criterion = nn.CrossEntropyLoss()
+    optimizer = optim.Adam(model.parameters(), lr=float(config["learning_rate"]))
+
+    epochs = int(config["epochs"])
+
+    # Note:
+    # We report training loss and validation loss/accuracy.
+    # The Kaggle test set does not contain labels, so we cannot compute test loss.
+    # Therefore, we split the training data into training/validation sets
+    # and use the validation set to evaluate generalization during development.
+
+    for epoch in range(1, epochs + 1):
+        train_loss = train_one_epoch(model, train_loader, optimizer, criterion, device)
+        val_loss, val_acc = evaluate(model, val_loader, criterion, device)
+
+        print(
+            f"Epoch {epoch}/{epochs} | "
+            f"train_loss={train_loss:.4f} | "
+            f"val_loss={val_loss:.4f} | "
+            f"val_acc={val_acc:.4f}"
+        )
 
 
 if __name__ == "__main__":
