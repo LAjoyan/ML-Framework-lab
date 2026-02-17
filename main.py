@@ -2,6 +2,8 @@ import argparse
 import yaml
 
 from src.dataset import get_dataloaders
+from src.model import SimpleCnn
+import torch
 
 
 def load_config(path):
@@ -26,6 +28,14 @@ def main():
 
     xv, yv = next(iter(val_loader))
     print("Val batch:", xv.shape, yv.shape)
+
+    model = SimpleCnn(num_classes=10)
+
+    x, y = next(iter(train_loader))
+    logits = model(x)
+
+    print("Forward pass:")
+    print("logits shape:", logits.shape)
 
 
 if __name__ == "__main__":
