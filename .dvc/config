@@ -1,0 +1,5 @@
+[core]
+    remote = s3remote
+['remote "s3remote"']
+    url = s3://ml-framework-lab-lajoyan/dvcstore
+    region = eu-north-1
