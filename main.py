@@ -1,5 +1,3 @@
-import argparse
-import yaml
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -8,23 +6,11 @@ from src.dataset import get_dataloaders
 from src.model import SimpleCnn
 from src.train import train_one_epoch, evaluate
 
-
-def load_config(path):
-    with open(path, "r") as f:
-        return yaml.safe_load(f)
-
-
-def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--config", type=str, required=True)
-    args = parser.parse_args()
-
-    config = load_config(args.config)
-
-    print("Loaded config:")
+def run_experiment(config: dict):
+    print("\nRunning experiment with config:")
     print(config)
 
-    train_loader, val_loader = get_dataloaders(config)
+    train_loader, val_loader, test_loader = get_dataloaders(config)
 
     model = SimpleCnn(num_classes=10)
 
@@ -36,12 +22,6 @@ def main():
 
     epochs = int(config["epochs"])
 
-    # Note:
-    # We report training loss and validation loss/accuracy.
-    # The Kaggle test set does not contain labels, so we cannot compute test loss.
-    # Therefore, we split the training data into training/validation sets
-    # and use the validation set to evaluate generalization during development.
-
     for epoch in range(1, epochs + 1):
         train_loss = train_one_epoch(model, train_loader, optimizer, criterion, device)
         val_loss, val_acc = evaluate(model, val_loader, criterion, device)
@@ -51,6 +31,56 @@ def main():
             f"train_loss={train_loss:.4f} | "
             f"val_loss={val_loss:.4f} | "
             f"val_acc={val_acc:.4f}"
+        )
+
+    test_loss, test_acc = evaluate(model, test_loader, criterion, device)
+    print(f"Test | loss={test_loss:.4f} | acc={test_acc:.4f}")
+
+    return {
+        "config": config,
+        "test_loss": test_loss,
+        "test_acc": test_acc,
+    }
+
+def main():
+    experiments = [
+        {
+            "name": "exp1",
+            "epochs": 3,
+            "batch_size": 64,
+            "learning_rate": 0.001,
+            "val_split": 0.1,
+            "seed": 42,
+        },
+        {
+            "name": "exp2",
+            "epochs": 3,
+            "batch_size": 64,
+            "learning_rate": 0.01,
+            "val_split": 0.1,
+            "seed": 42,
+        },
+        {
+            "name": "exp3",
+            "epochs": 3,
+            "batch_size": 128,
+            "learning_rate": 0.001,
+            "val_split": 0.1,
+            "seed": 42,
+        },
+    ]
+
+    results = []
+
+    for config in experiments:
+        result = run_experiment(config)
+        results.append(result)
+
+    print("\nFinal summary:")
+    for r in results:
+        print(
+            f"{r['config']['name']} | "
+            f"test_acc={r['test_acc']:.4f}"
         )
 
 
