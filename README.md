@@ -1,44 +1,62 @@
-# ML Framework Lab
+# ML Framework Lab: CIFAR-10 Image Classification Pipeline
 
-This project demonstrates how to set up an isolated and reproducible machine learning development environment using `uv`.
+This project demonstrates a complete Deep Learning workflow, emphasizing an isolated and reproducible environment using `uv` and modular PyTorch architecture.
 
-## Purpose
+## 🎯 Purpose
+The goal of this lab is to demonstrate how modern tools can be used to create a consistent, reproducible environment and a modular pipeline for machine learning development.
 
-The purpose of this lab is to show how modern tools can be used to create a consistent and reproducible environment for machine learning development.
----
+## 🛠️ Tools and Technologies
 
-## Tools and Technologies
+- **Python** (Managed via `uv`)
+- **PyTorch** (Core Deep Learning framework)
+- **DVC** (Data Version Control for AWS S3)
+- **Scikit-learn & Pandas** (Data processing and environment verification)
+- **Jupyter Notebook** (For EDA)
 
-This project uses the following tools:
+## 🏗️ Project Structure
 
-- Python
-- uv 
-- PyTorch
-- Scikit-learn
-- Pandas
-- Jupyter Notebook
----
-## Project Structure
+The project follows a modular design to separate data handling, model architecture, and training logic:
 
 ```text
 ML-Framework-Lab/
-├─ ML_lab/
-│  └─ check_env.py          
-├─ .venv/               
-├─ .gitignore
-├─ .python-version     
-├─ main.py             
-├─ pyproject.toml       
-├─ uv.lock              
-└─ README.md            
+├── .dvc/
+├── .venv/
+├── data/
+│   ├── cifar-10-batches-py/
+│   ├── .gitignore
+│   └── cifar-10-batches-py.dvc
+├── ML_lab/
+│   └── check_env.py
+├── src/
+│   ├── dataset.py
+│   ├── model.py
+│   └── train.py
+├── EDA.ipynb
+├── .dvcignore
+├── .gitignore
+├── .python-version
+├── main.py
+├── pyproject.toml
+├── README.md
+└── uv.lock          
 
 ```
----
-## Quickstart (Run on any computer)
 
-1) Install `uv` (once on your machine).
-2) Clone this repository.
-3) From the project root, run:
+## 🛠️ Task 0: Environment Verification & GPU Setup
+Before building the pipeline, I developed a verification script to ensure hardware acceleration and dependency integrity. 
+
+**Key Features:**
+
+* **Hardware Detection:** Identifies CUDA availability for modern architectures.
+* **Tensor Benchmark:** Performs a 1000 x 1000 matrix multiplication to verify compute functionality.
+* **Version Auditing:** Reports exact versions for Python, Torch, Scikit-learn, and Pandas.
+
+**GPU / CUDA Support (RTX 50-series)**
+
+On my machine (RTX 50-series), standard PyTorch builds did not support the new architecture. I configured pyproject.toml to use the CUDA 12.8 test wheel index to enable GPU support:
+https://download.pytorch.org/whl/test/cu128
+
+To verify your environment:
 
 ```bash
 uv sync
@@ -46,74 +64,39 @@ uv run python ML_lab/check_env.py
 ```
 ---
 
-## GPU / CUDA 
+## 📊 Task 1: Experiments & Results
 
-The environment supports GPU acceleration with PyTorch when CUDA is available.
+I conducted three experiments to evaluate the impact of Learning Rate and Batch Size on the CIFAR-10 dataset.
 
-On my computer (RTX 50-series), the standard stable PyTorch builds did not support the GPU architecture (sm_120).  
-To make CUDA work, I had to install a PyTorch build from the test CUDA 12.8 wheel index.
+| Experiment | Name | Learning Rate | Batch Size | Test Accuracy |
+| :--- | :--- | :--- | :--- | :--- |
+| 01 | exp1 | 0.001 | 64 | 64.14% |
+| 02 | exp2 | 0.01 | 64 | 9.98% |
+| 03 | exp3 | 0.001 | 128 | 63.51% |
 
-This is configured through the `tool.uv.index` section in `pyproject.toml`:
+### Analysis
 
-- `https://download.pytorch.org/whl/test/cu128`
+* Convergence Failure: In `exp2`, a learning rate of 0.01 was too high for the Adam optimizer, preventing the model from converging and resulting in random-chance accuracy (~10%).
 
-If the computer does not have an NVIDIA GPU or CUDA drivers, the project still runs on CPU.  
-The script `ML_lab/check_env.py` prints whether CUDA is available.
+* Batch Size: Increasing the batch size to 128 (`exp3`) slightly reduced the learning progress compared to 64 within the same 3-epoch window.
 
-If CUDA is not available, the script will automatically fall back to CPU.
+* Reproducibility: All experiments are automated and can be triggered via:
 
-## ✍️ Reflection
+```bash
+uv run python main.py
+```
 
-During this project, I learned how important it is to have a correctly configured and reproducible development environment.
+## 📦 Data Version Control (DVC)
+Raw data is stored in an AWS S3 bucket and tracked via `.dvc` files to keep the Git repository lightweight.
 
-A major challenge was installing PyTorch with GPU support, because my RTX 50-series GPU required a test build with CUDA 12.8. The standard installation did not work. This helped me understand how hardware and software compatibility affects machine learning workflows.
-
-The verification script is intentionally simple. It focuses on:
-
-- Checking the Python version
-
-- Verifying installed package versions
-
-- Detecting available hardware (CUDA or CPU)
-
-- Running a small tensor calculation
-
-I did not use advanced error handling (try/except), because if the environment is incorrectly set up, the script should fail clearly. This makes problems easier to detect.
-
-If CUDA is not available, the script automatically falls back to CPU. This allows the project to run on different computers without modification.
-
-For larger projects, possible improvements would be:
-
-- Adding more detailed error messages
-
-- Separating checks into functions
-
-- Verifying CUDA driver versions
-
-- Using CI to automatically test the environment
-
-This project helped me understand dependency management, reproducibility, and troubleshooting of machine learning environments.
-
-## Data Version Control (DVC)
-
-This project uses DVC to track and version the dataset.
-
-The raw data is stored in an AWS S3 bucket and is not included in Git.
-
-### Setup
-
-After cloning the repository, download the dataset with:
+* Setup: To fetch the dataset after cloning, run: 
 
 ```bash
 dvc pull
 ```
 
-This will fetch the data from the configured S3 remote.
+## ✍️ Reflection
 
-### Notes
+During this project, I learned how important it is to have a correctly configured and reproducible development environment. A major challenge was installing PyTorch with GPU support, as my RTX 50-series GPU required a test build with CUDA 12.8. This helped me understand how hardware and software compatibility affects machine learning workflows.
 
-* Raw data is stored in data/raw/
-
-* Dataset files are tracked using DVC
-
-* Large files are not committed to Git
+The verification script was kept intentionally simple to ensure clear failures if the environment is incorrect, making problems easier to detect. Solving the hardware alignment issues and modularizing the code into src/ provided deep insight into professional dependency management and troubleshooting in ML environments.
