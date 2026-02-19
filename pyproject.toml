@@ -12,5 +12,6 @@ dependencies = [
   "torch",
   "dvc[s3]>=3.66.1",
   "torchvision>=0.25.0",
+  "matplotlib>=3.10.8",
 ]
 
