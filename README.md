@@ -23,7 +23,6 @@ ML-Framework-Lab/
 ├── .venv/
 ├── data/
 │   ├── cifar-10-batches-py/
-│   ├── .gitignore
 │   └── cifar-10-batches-py.dvc
 ├── ML_lab/
 │   └── check_env.py
@@ -74,6 +73,10 @@ I conducted three experiments to evaluate the impact of Learning Rate and Batch 
 | 02 | exp2 | 0.01 | 64 | 9.98% |
 | 03 | exp3 | 0.001 | 128 | 63.51% |
 
+### ⚠️Note: 
+
+Final accuracy results may vary slightly across different runs due to stochastic weight initialization and data shuffling, which is typical for Deep Learning pipelines.
+
 ### Analysis
 
 * Convergence Failure: In `exp2`, a learning rate of 0.01 was too high for the Adam optimizer, preventing the model from converging and resulting in random-chance accuracy (~10%).
@@ -94,6 +97,17 @@ Raw data is stored in an AWS S3 bucket and tracked via `.dvc` files to keep the 
 ```bash
 dvc pull
 ```
+### ⚠️ Note on Data Access
+The raw data is managed via DVC and stored in a private AWS S3 bucket. If you do not have access to the remote storage, you can download the data directly via PyTorch by following these steps:
+
+1. Open `src/dataset.py`.
+2. Locate the `CIFAR10` dataset initialization.
+3. Temporarily change `download=False` to `download=True`.
+4. Run `main.py` once to download the dataset to the `data/` folder.
+5. Change it back to `download=False` to maintain the pipeline integrity.
+
+I have used this same method to initially fetch and then version-control the data with DVC.
+
 
 ## ✍️ Reflection
 
