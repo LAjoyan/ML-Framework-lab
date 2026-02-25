@@ -9,6 +9,7 @@ The goal of this lab is to demonstrate how modern tools can be used to create a 
 
 - **Python** (Managed via `uv`)
 - **PyTorch** (Core Deep Learning framework)
+- **Pytorch Lightning** (High-level interface for modular PyTorch development)
 - **DVC** (Data Version Control for AWS S3)
 - **Scikit-learn & Pandas** (Data processing and environment verification)
 - **Jupyter Notebook** (For EDA)
@@ -29,7 +30,7 @@ ML-Framework-Lab/
 ├── src/
 │   ├── dataset.py
 │   ├── model.py
-│   └── train.py
+│   └── train.py  #deleted after using Pytorch Lightninhg
 ├── EDA.ipynb
 ├── .dvcignore
 ├── .gitignore
@@ -40,6 +41,13 @@ ML-Framework-Lab/
 └── uv.lock          
 
 ```
+
+🏗️ Project Architecture Update
+To improve modularity and adhere to the principle of Boilerplate Reduction, I refactored the pipeline from vanilla PyTorch to PyTorch Lightning. In this professional architecture, the manual loops and evaluation logic previously found in `train.py` were integrated directly into the `LightningModule` methods (`training_step`, `validation_step`, `test_step`) within src/model.py. This makes the codebase significantly easier to maintain and scale.
+
+## Performance Impact:
+ Transitioning to the Lightning framework resulted in a test accuracy of 66.54% for the primary experiment (exp1), a notable improvement over the initial vanilla implementation.
+
 
 ## 🛠️ Task 0: Environment Verification & GPU Setup
 Before building the pipeline, I developed a verification script to ensure hardware acceleration and dependency integrity. 
@@ -69,9 +77,9 @@ I conducted three experiments to evaluate the impact of Learning Rate and Batch 
 
 | Experiment | Name | Learning Rate | Batch Size | Test Accuracy |
 | :--- | :--- | :--- | :--- | :--- |
-| 01 | exp1 | 0.001 | 64 | 64.14% |
-| 02 | exp2 | 0.01 | 64 | 9.98% |
-| 03 | exp3 | 0.001 | 128 | 63.51% |
+| 01 | exp1 | 0.001 | 64 | 66.54% |
+| 02 | exp2 | 0.01 | 64 | 44.86% |
+| 03 | exp3 | 0.001 | 128 | 66.43% |
 
 ### ⚠️Note: 
 
