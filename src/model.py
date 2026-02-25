@@ -49,4 +49,11 @@ class SimpleCnn(L.LightningModule):
     def configure_optimizers(self):
         return torch.optim.Adam(self.parameters(), lr=self.hparams.lr)
 
+    def test_step(self, batch, batch_idx):
+        # This allows trainer.test() to work
+        x, y = batch
+        logits = self(x)
+        acc = (logits.argmax(dim=1) == y).float().mean()
+        self.log("test_acc", acc) # main.py looks for this key
+
 
