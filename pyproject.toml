@@ -14,5 +14,6 @@ dependencies = [
   "torchvision>=0.25.0",
   "matplotlib>=3.10.8",
   "onnxruntime>=1.24.2",
+  "pytorch-lightning>=2.6.1",
 ]
 
