@@ -38,6 +38,7 @@ ML-Framework-Lab/
 ├── app.py
 ├── export.py
 ├── verify_onnx.py
+├── model.onnx.dvc
 ├── main.py
 ├── pyproject.toml
 ├── README.md
@@ -76,13 +77,13 @@ uv run python ML_lab/check_env.py
 
 ## 📊 Task 1: Experiments & Results
 
-I conducted three experiments to evaluate the impact of Learning Rate and Batch Size on the CIFAR-10 dataset.
+I optimized the pipeline with BatchNorm and improved normalization, leading to a new performance baseline:
 
 | Experiment | Name | Learning Rate | Batch Size | Test Accuracy |
 | :--- | :--- | :--- | :--- | :--- |
-| 01 | exp1 | 0.001 | 64 | 66.54% |
-| 02 | exp2 | 0.01 | 64 | 44.86% |
-| 03 | exp3 | 0.001 | 128 | 66.43% |
+| 01 | exp1 | 0.001 | 64 | 73.85% |
+| 02 | exp2 | 0.01 | 64 | 64.48% |
+| 03 | exp3 | 0.001 | 128 | 73.79% |
 
 ### ⚠️Note: 
 
@@ -120,10 +121,20 @@ The raw data is managed via DVC and stored in a private AWS S3 bucket. If you do
 I have used this same method to initially fetch and then version-control the data with DVC.
 
 ## 🚀 Task 2: Model Deployment (In Progress)
-Currently comparing two high-performance export formats to find the best production latency:
+I have successfully exported the best-performing model to the ONNX format for cross-platform inference.
 
-- **ONNX**: Exported using `torch.onnx` (Current Best: 73.85% accuracy).
-- **TorchScript**: Pending (Collaborating with team member for `jit` implementation).
+* **Format**: ONNX (Open Neural Network Exchange).
+
+* **Verification**: Passed via verify_onnx.py (Output matches PyTorch results).
+
+* **Storage**: Model weights are tracked via DVC to keep the Git history clean.
+
+To use the model, run:
+
+```bash
+dvc pull model.onnx.dvc
+uv run python verify_onnx.py
+```
 
 ## ✍️ Reflection
 
