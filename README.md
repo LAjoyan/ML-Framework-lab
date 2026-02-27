@@ -35,6 +35,9 @@ ML-Framework-Lab/
 ├── .dvcignore
 ├── .gitignore
 ├── .python-version
+├── app.py
+├── export.py
+├── verify_onnx.py
 ├── main.py
 ├── pyproject.toml
 ├── README.md
@@ -116,6 +119,11 @@ The raw data is managed via DVC and stored in a private AWS S3 bucket. If you do
 
 I have used this same method to initially fetch and then version-control the data with DVC.
 
+## 🚀 Task 2: Model Deployment (In Progress)
+Currently comparing two high-performance export formats to find the best production latency:
+
+- **ONNX**: Exported using `torch.onnx` (Current Best: 73.85% accuracy).
+- **TorchScript**: Pending (Collaborating with team member for `jit` implementation).
 
 ## ✍️ Reflection
 
