@@ -9,15 +9,23 @@ class SimpleCnn(L.LightningModule):
         self.save_hyperparameters()
 
         self.features = nn.Sequential(
+             # Block 1
             nn.Conv2d(3, 32, kernel_size=3, padding=1),
+            nn.BatchNorm2d(32), # (matches the 32 output channels)
             nn.ReLU(),
-            nn.MaxPool2d(2),  # 32x32 -> 16x16
+            nn.MaxPool2d(2),
+            
+            # Block 2
             nn.Conv2d(32, 64, kernel_size=3, padding=1),
+            nn.BatchNorm2d(64), # (matches the 64 output channels)
             nn.ReLU(),
-            nn.MaxPool2d(2),  # 16x16 -> 8x8
+            nn.MaxPool2d(2),
+            
+            # Block 3
             nn.Conv2d(64, 128, kernel_size=3, padding=1),
+            nn.BatchNorm2d(128), # (matches the 128 output channels)
             nn.ReLU(),
-            nn.MaxPool2d(2),  # 8x8 -> 4x4
+            nn.MaxPool2d(2),
         )
 
         self.classifier = nn.Sequential(
