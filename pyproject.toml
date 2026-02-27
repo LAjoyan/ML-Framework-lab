@@ -19,5 +19,6 @@ dependencies = [
   "onnxscript>=0.6.2",
   "fastapi>=0.133.1",
   "uvicorn>=0.41.0",
+  "python-multipart>=0.0.22",
 ]
 
