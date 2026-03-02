@@ -211,3 +211,7 @@ __marimo__/
 .dvc/config.local
 
 data/cifar-10-batches-py/
+# Local data & artifacts
+data/
+models/
+*.tar.gz
