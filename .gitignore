@@ -219,6 +219,3 @@ model.onnx.data
 *.pt
 *.pth
 *.ckpt 
-
-model.onnx
-model.onnx.data
