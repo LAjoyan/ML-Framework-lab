@@ -219,3 +219,5 @@ model.onnx.data
 *.pt
 *.pth
 *.ckpt 
+
+*.tar.gz
