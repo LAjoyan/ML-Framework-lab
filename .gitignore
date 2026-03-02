@@ -214,3 +214,11 @@ data/cifar-10-batches-py/
 
 model.onnx
 model.onnx.data
+
+*.onnx
+*.pt
+*.pth
+*.ckpt 
+
+model.onnx
+model.onnx.data
