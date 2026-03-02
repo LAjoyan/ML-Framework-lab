@@ -11,7 +11,10 @@ def get_dataloaders(config: dict):
     num_workers = int(config.get("num_workers", 0))
 
 
-    transform = transforms.ToTensor()
+    transform = transforms.Compose([
+    transforms.ToTensor(),
+    transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
+])
 
     full_train_ds = torchvision.datasets.CIFAR10(
         root=data_root,
