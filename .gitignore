@@ -222,3 +222,5 @@ model.onnx.data
 
 model.onnx
 model.onnx.data
+
+*.gz
