@@ -99,6 +99,26 @@ We started our project with Josefin forking this repository and creating a branc
 
 After discussing our progress with our teacher, we decided to delete Josefin’s forked repository and start fresh by cloning the repository instead. We also decided not to work with only ONNX and to make continous updates. 
 
+### Streamlit Web Interface
+
+This project includes a Streamlit web interface that allows users to interact with the CIFAR-10 image classifier in a simple graphical UI.
+
+The interface lets users:
+Upload an image (png, jpg, jpeg)
+Send the image to the FastAPI inference API
+View the predicted class and confidence score
+Perform a health check to verify that the backend API is running
+
+The Streamlit app acts as the frontend layer of the system, communicating with the backend through HTTP requests.
+
+Features:
+Image upload and preview
+Prediction request to FastAPI /predict
+Confidence visualization with a progress bar
+Emoji mapping for CIFAR-10 classes
+API health check in the sidebar
+Model information display
+
 ### Analysis
 
 * Convergence Failure: In `exp2`, a learning rate of 0.01 was too high for the Adam optimizer, preventing the model from converging and resulting in random-chance accuracy (~10%).
