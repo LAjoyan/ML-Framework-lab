@@ -3,27 +3,26 @@ import torch.nn as nn
 import torch.nn.functional as F
 import pytorch_lightning as L
 
+
 class SimpleCnn(L.LightningModule):
     def __init__(self, num_classes: int = 10, lr: float = 0.001):
         super().__init__()
         self.save_hyperparameters()
 
         self.features = nn.Sequential(
-             # Block 1
+            # Block 1
             nn.Conv2d(3, 32, kernel_size=3, padding=1),
-            nn.BatchNorm2d(32), # (matches the 32 output channels)
+            nn.BatchNorm2d(32),  # (matches the 32 output channels)
             nn.ReLU(),
             nn.MaxPool2d(2),
-            
             # Block 2
             nn.Conv2d(32, 64, kernel_size=3, padding=1),
-            nn.BatchNorm2d(64), # (matches the 64 output channels)
+            nn.BatchNorm2d(64),  # (matches the 64 output channels)
             nn.ReLU(),
             nn.MaxPool2d(2),
-            
             # Block 3
             nn.Conv2d(64, 128, kernel_size=3, padding=1),
-            nn.BatchNorm2d(128), # (matches the 128 output channels)
+            nn.BatchNorm2d(128),  # (matches the 128 output channels)
             nn.ReLU(),
             nn.MaxPool2d(2),
         )
@@ -36,8 +35,8 @@ class SimpleCnn(L.LightningModule):
         )
 
     def forward(self, x):
-            x = self.features(x)
-            return self.classifier(x)
+        x = self.features(x)
+        return self.classifier(x)
 
     def training_step(self, batch, batch_idx):
         x, y = batch
@@ -62,6 +61,4 @@ class SimpleCnn(L.LightningModule):
         x, y = batch
         logits = self(x)
         acc = (logits.argmax(dim=1) == y).float().mean()
-        self.log("test_acc", acc) # main.py looks for this key
-
-
+        self.log("test_acc", acc)  # main.py looks for this key
