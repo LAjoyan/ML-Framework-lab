@@ -1,12 +1,13 @@
 import torch
 from src.model import SimpleCnn
 
+
 def export():
     # Initialize the model structure
     model = SimpleCnn(num_classes=10)
 
     model.load_state_dict(torch.load("model.pth", map_location="cpu"))
-    
+
     # 2. Set to evaluation mode
     model.eval()
 
@@ -15,13 +16,15 @@ def export():
 
     # Export to ONNX
     torch.onnx.export(
-        model, 
-        dummy_input, 
-        "model.onnx", 
+        model,
+        dummy_input,
+        "model.onnx",
         export_params=True,
-        input_names=['input'],
-        output_names=['output']
+        input_names=["input"],
+        output_names=["output"],
     )
     print("✅ Successfully exported TRAINED model to model.onnx")
+
+
 if __name__ == "__main__":
     export()
