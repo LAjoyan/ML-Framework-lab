@@ -81,9 +81,9 @@ I optimized the pipeline with BatchNorm and improved normalization, leading to a
 
 | Experiment | Name | Learning Rate | Batch Size | Test Accuracy |
 | :--- | :--- | :--- | :--- | :--- |
-| 01 | exp1 | 0.001 | 64 | 73.85% |
-| 02 | exp2 | 0.01 | 64 | 64.48% |
-| 03 | exp3 | 0.001 | 128 | 73.79% |
+| 01 | exp1 | 0.001 | 64 | 73.83% |
+| 02 | exp2 | 0.01 | 64 | 67.16% |
+| 03 | exp3 | 0.001 | 128 | 73.99% |
 
 ### ⚠️Note: 
 
@@ -91,33 +91,13 @@ Final accuracy results may vary slightly across different runs due to stochastic
 
 ## 👥 Collaborators
 
-- Lilit - ONNX, fastAPI
+- Lilit 
 - Josefin 
 
 ### Project Progression
-We started our project with Josefin forking this repository and creating a branch to export the model with TorchScript. Lilit created her own branch to export the model using ONNX. Our idea was to test both options to see which model export gave us the best result.
+We initiated the project with Josefin forking the repository to test model exporting via **TorchScript**. Lilit created a separate branch to explore **ONNX**. Our goal was to evaluate both formats to determine which model offered the best performance and integration for our pipeline.
 
-After discussing our progress with our teacher, we decided to delete Josefin’s forked repository and start fresh by cloning the repository instead. We also decided not to work with only ONNX and to make continous updates. 
-
-### Streamlit Web Interface
-
-This project includes a Streamlit web interface that allows users to interact with the CIFAR-10 image classifier in a simple graphical UI.
-
-The interface lets users:
-Upload an image (png, jpg, jpeg)
-Send the image to the FastAPI inference API
-View the predicted class and confidence score
-Perform a health check to verify that the backend API is running
-
-The Streamlit app acts as the frontend layer of the system, communicating with the backend through HTTP requests.
-
-Features:
-Image upload and preview
-Prediction request to FastAPI /predict
-Confidence visualization with a progress bar
-Emoji mapping for CIFAR-10 classes
-API health check in the sidebar
-Model information display
+After consulting with our instructor, we decided to streamline our workflow by deleting the fork and working directly from a cloned version of the main repository. We ultimately chose to move forward exclusively with **ONNX** and transitioned to a continuous update model using feature branches and peer reviews.
 
 ### Analysis
 
@@ -150,14 +130,16 @@ The raw data is managed via DVC and stored in a private AWS S3 bucket. If you do
 
 I have used this same method to initially fetch and then version-control the data with DVC.
 
-## 🚀 Task 2: Model Deployment (In Progress)
-I have successfully exported the best-performing model to the ONNX format for cross-platform inference.
+## 🚀 Task 2: Model Deployment
+I have successfully deployedd the model using a FastAPI backend and ONNX Runtime for inference.
 
 * **Format**: ONNX (Open Neural Network Exchange).
 
-* **Verification**: Passed via verify_onnx.py (Output matches PyTorch results).
+* **Framework**: FastAPI for the prediction API.
 
-* **Storage**: Model weights are tracked via DVC to keep the Git history clean.
+* **Inference**: Optimized via ONNX Runtime to ensure cross-platform compatibility.
+
+* **Accuracy**: The deployed model maintains the ~74% accuracy observed during training.
 
 To use the model, run:
 
@@ -166,8 +148,42 @@ dvc pull model.onnx.dvc
 uv run python verify_onnx.py
 ```
 
+### 🔧 Bug Fix & Optimization Log
+
+During the deployment phase, I identified and resolved a critical "Inference Gap" where the model predicted with only 10% accuracy in the API despite high training results:
+* **Weight Persistence:** Fixed a bug where `model.pth` wasn't being updated after training.
+* **Preprocessing Alignment:** Synchronized the FastAPI preprocessing (normalization and tensor shapes) to match the training pipeline exactly.
+
+
 ## ✍️ Reflection
 
 During this project, I learned how important it is to have a correctly configured and reproducible development environment. A major challenge was installing PyTorch with GPU support, as my RTX 50-series GPU required a test build with CUDA 12.8. This helped me understand how hardware and software compatibility affects machine learning workflows.
 
 The verification script was kept intentionally simple to ensure clear failures if the environment is incorrect, making problems easier to detect. Solving the hardware alignment issues and modularizing the code into src/ provided deep insight into professional dependency management and troubleshooting in ML environments.
+
+### Streamlit Web Interface (Pending)
+
+This project includes a Streamlit web interface that allows users to interact with the CIFAR-10 image classifier in a simple graphical UI.
+
+The interface lets users:
+Upload an image (png, jpg, jpeg)
+Send the image to the FastAPI inference API
+View the predicted class and confidence score
+Perform a health check to verify that the backend API is running
+
+The Streamlit app acts as the frontend layer of the system, communicating with the backend through HTTP requests.
+
+Features:
+Image upload and preview
+Prediction request to FastAPI /predict
+Confidence visualization with a progress bar
+Emoji mapping for CIFAR-10 classes
+API health check in the sidebar
+Model information display
+
+## 🔗 Pull Requests & Code Reviews
+To satisfy the collaboration requirement, these links document our peer reviews and technical fixes:
+
+https://github.com/LAjoyan/ML-Framework-lab/pull/12 : Documentation of the graphical interface implementation.
+
+https://github.com/LAjoyan/ML-Framework-lab/pull/14 : Fixed model saving, ONNX export, and preprocessing logic.
