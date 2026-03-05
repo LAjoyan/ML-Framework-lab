@@ -85,6 +85,16 @@ I conducted three experiments to evaluate the impact of Learning Rate and Batch 
 
 Final accuracy results may vary slightly across different runs due to stochastic weight initialization and data shuffling, which is typical for Deep Learning pipelines.
 
+## 👥 Collaborators
+
+- Lilit - ONNX, fastAPI
+- Josefin 
+
+### Project Progression
+We started our project with Josefin forking this repository and creating a branch to export the model with TorchScript. Lilit created her own branch to export the model using ONNX. Our idea was to test both options to see which model export gave us the best result.
+
+After discussing our progress with our teacher, we decided to delete Josefin’s forked repository and start fresh by cloning the repository instead. We also decided not to work with only ONNX and to make continous updates. 
+
 ### Analysis
 
 * Convergence Failure: In `exp2`, a learning rate of 0.01 was too high for the Adam optimizer, preventing the model from converging and resulting in random-chance accuracy (~10%).
