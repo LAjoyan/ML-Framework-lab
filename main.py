@@ -1,3 +1,4 @@
+import torch
 import pytorch_lightning as L
 
 from src.dataset import get_dataloaders
@@ -18,6 +19,9 @@ def run_experiment(config: dict):
     )
 
     trainer.fit(model, train_loader, val_loader)
+
+    torch.save(model.state_dict(), "model.pth")
+    print(">>> Model weights saved to model.pth")
 
     test_results = trainer.test(model, test_loader)[0]
 

@@ -38,13 +38,13 @@ async def predict(file: UploadFile = File(...)):
 
     # Preprocess: Resize to 32x32 and normalize
     img = img.resize((32, 32))
-    img_array = np.array(img).astype(np.float32)[:, :, ::-1] / 255.0
+    img_array = np.array(img).astype(np.float32) / 255.0
 
     # Change shape from (32, 32, 3) to (1, 3, 32, 32)
     img_array = img_array.transpose(2, 0, 1)
 
-    mean = np.array([0.4914, 0.4822, 0.4465], dtype=np.float32).reshape(3, 1, 1)
-    std = np.array([0.2023, 0.1994, 0.2010], dtype=np.float32).reshape(3, 1, 1)
+    mean = np.array([0.5, 0.5, 0.5], dtype=np.float32).reshape(3, 1, 1)
+    std = np.array([0.5, 0.5, 0.5], dtype=np.float32).reshape(3, 1, 1)
 
     img_array = (img_array - mean) / std
     img_array = np.expand_dims(img_array, axis=0)
