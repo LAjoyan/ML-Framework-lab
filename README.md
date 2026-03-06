@@ -29,14 +29,18 @@ ML-Framework-Lab/
 │   └── check_env.py
 ├── src/
 │   ├── dataset.py
+│   ├── constants.py
 │   ├── EDA.ipynb
 │   └── model.py
 ├── test_images/
 ├── pages/                   
-│   └── Predict.py           
+│   └── Predict.py        
+├── Predictions/   
 ├── docker-compose.yml       
 ├── Dockerfile               
 ├── Dockerfile.streamlit     
+├── .dockerignore
+├── .gitignore
 ├── streamlit_app.py         
 ├── app.py     
 ├── download_testimage.py
@@ -146,6 +150,12 @@ We have successfully exported the best-performing model to the ONNX format for c
 * **Verification**: Passed via `verify_onnx.py`(Output matches PyTorch results).
 
 * **Storage**: Large model weights (.onnx and .onnx.data) are tracked via DVC to keep the Git history lightweight.
+
+![Backend Prediction Proof #1](Predictions/Airplane_prediction.png)
+*Figure 1: Successful backend inference showing the ONNX model correctly classifying a test image via the FastAPI endpoint.*
+
+![Backend Prediction Proof #2](Predictions/frog_prediction.png)
+*Figure 1: Successful backend inference showing the ONNX model correctly classifying a test image via the FastAPI endpoint.*
 
 ## Modern Deployment Stack
 
