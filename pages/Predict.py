@@ -15,26 +15,6 @@ Upload an image of a ✈️ fast airplane, 🚗 an expensive car, 🐦 an ugly b
 """
 )
 
-# --- Sidebar: system / health check / model info ---
-with st.sidebar:
-    st.header("🩺 System")
-
-    if st.button("Health Check"):
-        try:
-            r = requests.get(f"{API_URL}/", timeout=10)
-            r.raise_for_status()
-            st.success("API is online!")
-            st.json(r.json())
-        except Exception as e:
-            st.error("Health check failed")
-            st.write(e)
-
-    st.divider()
-    st.header("📦 Model info")
-    st.write("Framework: **ONNX Runtime**")
-    st.write("Dataset: **CIFAR-10**")
-    st.write("Expected accuracy: **~73.85%**")
-
 # --- Upload ---
 uploaded = st.file_uploader("", type=["png", "jpg", "jpeg"])
 
@@ -64,7 +44,7 @@ if uploaded is not None:
 
 
     with col2:
-        st.write("")  # spacing
+        st.write("")
 
     if uploaded is not None:
 
@@ -82,8 +62,11 @@ if uploaded is not None:
             else:
                 data = r.json()
                 st.success("Prediction complete!")
-                st.write(f"**Label:** {data['label']}")
+
+                label = data["label"]
+                emoji = EMOJIS.get(label, "")
+                st.write(f"**Prediction:** {emoji} {label}")
                 st.write(f"**Class ID:** {data['class_id']}")
-                st.write(f"**Confidence:** {data['confidence']}")
+                st.write(f"**Accuracy:** {data['confidence']}")
 else:
     st.info("👆 Here we go!")
