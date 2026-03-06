@@ -25,24 +25,34 @@ ML-Framework-Lab/
 ├── data/
 │   ├── cifar-10-batches-py/
 │   └── cifar-10-batches-py.dvc
+├── Deploy/
+├── models/                  
+│   ├── model.onnx
+│   └── model.onnx.data
 ├── ML_lab/
 │   └── check_env.py
 ├── src/
 │   ├── dataset.py
-│   ├── model.py
-│   └── train.py  #deleted after using Pytorch Lightninhg
-├── EDA.ipynb
-├── .dvcignore
-├── .gitignore
-├── .python-version
-├── app.py
+│   ├── EDA.ipynb
+│   └── model.py
+├── test_images/
+├── pages/                   
+│   └── Predict.py           
+├── docker-compose.yml       
+├── Dockerfile               
+├── Dockerfile.streamlit     
+├── streamlit_app.py         
+├── app.py     
+├── download_testimage.py
 ├── export.py
-├── verify_onnx.py
+├── main.py  
 ├── model.onnx.dvc
-├── main.py
+├── model.pth
+├── .dvcignore             
 ├── pyproject.toml
 ├── README.md
-└── uv.lock          
+├── uv.lock
+└── verify_onnx.py               
 
 ```
 
