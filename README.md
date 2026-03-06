@@ -155,7 +155,7 @@ We have successfully exported the best-performing model to the ONNX format for c
 *Figure 1: Successful backend inference showing the ONNX model correctly classifying a test image via the FastAPI endpoint.*
 
 ![Backend Prediction Proof #2](Predictions/frog_prediction.png)
-*Figure 1: Successful backend inference showing the ONNX model correctly classifying a test image via the FastAPI endpoint.*
+*Figure 2: Successful backend inference showing the ONNX model correctly classifying a test image via the FastAPI endpoint.*
 
 ## Modern Deployment Stack
 
