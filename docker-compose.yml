@@ -1,0 +1,7 @@
+services:
+  ml-app:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./models:/app/models # Mount models locally for easy updates
