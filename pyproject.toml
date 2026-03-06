@@ -5,7 +5,7 @@ description = "Machine learning framework for ML experiments"
 readme = "README.md"
 requires-python = ">=3.12,<3.14"
 dependencies = [
-  "pandas>=3.0.0",
+  "pandas>=2.2.0",
   "ipykernel>=7.1.0",
   "jupyter",
   "scikit-learn>=1.8.0",
@@ -20,5 +20,6 @@ dependencies = [
   "fastapi>=0.133.1",
   "uvicorn>=0.41.0",
   "python-multipart>=0.0.22",
+  "streamlit>=1.30"
 ]
 
