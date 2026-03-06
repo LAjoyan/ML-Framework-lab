@@ -1,7 +1,7 @@
 import streamlit as st
 import requests
 
-API_URL = "http://localhost:8000"
+API_URL = "http://ml-app:8000"
 
 # --- Page setup ---
 st.set_page_config(page_title="CIFAR-10 (ONNX) UI", layout="centered")
