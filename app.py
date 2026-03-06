@@ -2,7 +2,7 @@ from fastapi import FastAPI, UploadFile, File
 import onnxruntime as ort
 import numpy as np
 from PIL import Image
-from constants import MODEL_PATH
+from src.constants import MODEL_PATH
 import io
 
 app = FastAPI(title="CIFAR-10 Classifier (ONNX)")
