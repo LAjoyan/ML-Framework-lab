@@ -11,7 +11,9 @@ st.set_page_config(
 st.title("🏠 Home")
 
 with st.sidebar:
-    st.header("🩺 System")
+    #st.title("⚙️ System")
+
+    #st.subheader("⚙️ Health")
 
     if st.button("Health Check"):
         try:
@@ -28,11 +30,15 @@ with st.sidebar:
     st.subheader("📦 Model Information")
 
     st.markdown("""
-- **Framework:** ONNX Runtime  
-- **Dataset:** CIFAR-10  
-- **Image size:** 32×32 pixels  
-- **Classes:** 10  
-- **Expected accuracy:** ~73.85%
+**Framework:** ONNX Runtime
+                
+**Dataset:** CIFAR-10
+                
+**Image size:** 32×32 pixels
+                
+**Classes:** 10
+                
+**Expected accuracy:** ~73.85%
 """)
 
 st.markdown("## CIFAR-10 Image Classifier")
@@ -60,7 +66,7 @@ The model can classify the following objects:
 """)
 
 st.image(
-    "https://docs.pytorch.org/tutorials/_images/cifar10.png",
+    "https://storage.googleapis.com/kaggle-media/competitions/kaggle/3649/media/cifar-10.png",
     caption="Examples from the CIFAR-10 dataset",
     use_container_width=True
 )
