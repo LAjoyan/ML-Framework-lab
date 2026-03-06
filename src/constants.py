@@ -1,3 +1,4 @@
 from pathlib import Path
 
-MODEL_PATH = Path("ML_lab/models/model.onnx")
+BASE_DIR = Path(__file__).resolve().parents[1]
+MODEL_PATH = BASE_DIR / "models" / "model.onnx"
