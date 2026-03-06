@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+.git/
+.dvc/
+.ipynb_checkpoints/
+*.ipynb
+data/
+test_images/
+README.md

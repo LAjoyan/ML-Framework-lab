@@ -2,12 +2,13 @@ from fastapi import FastAPI, UploadFile, File
 import onnxruntime as ort
 import numpy as np
 from PIL import Image
+from src.constants import MODEL_PATH
 import io
 
 app = FastAPI(title="CIFAR-10 Classifier (ONNX)")
 
 # Load the model once when the server starts
-session = ort.InferenceSession("model.onnx")
+session = ort.InferenceSession(str(MODEL_PATH))
 input_name = session.get_inputs()[0].name
 
 
