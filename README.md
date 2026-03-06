@@ -14,10 +14,6 @@ The goal of this lab is to demonstrate how modern tools can be used to create a 
 - **Scikit-learn & Pandas** (Data processing and environment verification)
 - **Jupyter Notebook** (For EDA)
 
-## 🏗️ Project Structure
-
-The project follows a modular design to separate data handling, model architecture, and training logic:
-
 ```text
 ML-Framework-Lab/
 ├── .dvc/
@@ -57,14 +53,14 @@ ML-Framework-Lab/
 ```
 
 🏗️ Project Architecture Update
-To improve modularity and adhere to the principle of Boilerplate Reduction, I refactored the pipeline from vanilla PyTorch to PyTorch Lightning. In this professional architecture, the manual loops and evaluation logic previously found in `train.py` were integrated directly into the `LightningModule` methods (`training_step`, `validation_step`, `test_step`) within src/model.py. This makes the codebase significantly easier to maintain and scale.
+To improve modularity and adhere to the principle of Boilerplate Reduction, we refactored the pipeline from vanilla PyTorch to PyTorch Lightning. In this professional architecture, the manual loops and evaluation logic previously found in `train.py` were integrated directly into the `LightningModule` methods (`training_step`, `validation_step`, `test_step`) within src/model.py. This makes the codebase significantly easier to maintain and scale.
 
 ## Performance Impact:
  Transitioning to the Lightning framework resulted in a test accuracy of 66.54% for the primary experiment (exp1), a notable improvement over the initial vanilla implementation.
 
 
 ## 🛠️ Task 0: Environment Verification & GPU Setup
-Before building the pipeline, I developed a verification script to ensure hardware acceleration and dependency integrity. 
+Before building the pipeline, We developed a verification script to ensure hardware acceleration and dependency integrity. 
 
 **Key Features:**
 
@@ -74,7 +70,7 @@ Before building the pipeline, I developed a verification script to ensure hardwa
 
 **GPU / CUDA Support (RTX 50-series)**
 
-On my machine (RTX 50-series), standard PyTorch builds did not support the new architecture. I configured pyproject.toml to use the CUDA 12.8 test wheel index to enable GPU support:
+On my machine (RTX 50-series), standard PyTorch builds did not support the new architecture. We configured pyproject.toml to use the CUDA 12.8 test wheel index to enable GPU support:
 https://download.pytorch.org/whl/test/cu128
 
 To verify your environment:
@@ -87,13 +83,13 @@ uv run python ML_lab/check_env.py
 
 ## 📊 Task 1: Experiments & Results
 
-I optimized the pipeline with BatchNorm and improved normalization, leading to a new performance baseline:
+We optimized the pipeline with BatchNorm and improved normalization, leading to a new performance baseline:
 
 | Experiment | Name | Learning Rate | Batch Size | Test Accuracy |
 | :--- | :--- | :--- | :--- | :--- |
-| 01 | exp1 | 0.001 | 64 | 73.83% |
-| 02 | exp2 | 0.01 | 64 | 67.16% |
-| 03 | exp3 | 0.001 | 128 | 73.99% |
+| 01 | exp1 | 0.001 | 64 | 73.85% |
+| 02 | exp2 | 0.01 | 64 | 64.48% |
+| 03 | exp3 | 0.001 | 128 | 73.79% |
 
 ### ⚠️Note: 
 
@@ -138,40 +134,71 @@ The raw data is managed via DVC and stored in a private AWS S3 bucket. If you do
 4. Run `main.py` once to download the dataset to the `data/` folder.
 5. Change it back to `download=False` to maintain the pipeline integrity.
 
-I have used this same method to initially fetch and then version-control the data with DVC.
+We have used this same method to initially fetch and then version-control the data with DVC.
 
 ## 🚀 Task 2: Model Deployment
-I have successfully deployedd the model using a FastAPI backend and ONNX Runtime for inference.
+We have successfully exported the best-performing model to the ONNX format for cross-platform inference.
+
+## Model Export & Verification
 
 * **Format**: ONNX (Open Neural Network Exchange).
 
-* **Framework**: FastAPI for the prediction API.
+* **Verification**: Passed via `verify_onnx.py`(Output matches PyTorch results).
 
-* **Inference**: Optimized via ONNX Runtime to ensure cross-platform compatibility.
+* **Storage**: Large model weights (.onnx and .onnx.data) are tracked via DVC to keep the Git history lightweight.
 
-* **Accuracy**: The deployed model maintains the ~74% accuracy observed during training.
+## Modern Deployment Stack
 
-To use the model, run:
+* **Backend**: FastAPI service optimized for high-performance inference and automated documentation.
+
+* **Frontend**: Streamlit dashboard providing an intuitive interface for non-technical users.
+
+* **Containerization**: Fully dockerized environment using Docker Compose for seamless, one-command setup.
+
+### To use the model, run:
 
 ```bash
 dvc pull model.onnx.dvc
 uv run python verify_onnx.py
 ```
+## 💻 Running the Application
+To run the entire system (API + UI) without manual installation:
+
+1. **Pull the model**: 
+   ```bash
+   dvc pull
+    ```
+
+2. **Launch containers**:
+ ```bash
+   docker-compose up --build
+```
+
+3. **API Documentation**: Once the containers are running, you can access the interactive Swagger UI at [http://localhost:8000/docs](http://localhost:8000/docs) to test the endpoints manually.
+
 
 ### 🔧 Bug Fix & Optimization Log
 
-During the deployment phase, I identified and resolved a critical "Inference Gap" where the model predicted with only 10% accuracy in the API despite high training results:
+During the deployment phase, we identified and resolved a critical "Inference Gap" where the model predicted with only 10% accuracy in the API despite high training results:
 * **Weight Persistence:** Fixed a bug where `model.pth` wasn't being updated after training.
 * **Preprocessing Alignment:** Synchronized the FastAPI preprocessing (normalization and tensor shapes) to match the training pipeline exactly.
 
+### 🖥️ Task 3: Interactive Dashboard (Frontend)
+We developed a custom web interface to make the model accessible to non-technical users.
+
+* **Framework**: Built with **Streamlit** for a reactive and Python-native UI.
+* **Multi-Page Architecture**: Organized with a **Home Dashboard** for project info and a **Predict Page** for model interaction.
+* **Custom Styling**: Implemented **CSS injection** to create a professional "LAB NAVIGATION" sidebar.
+* **Real-Time Monitoring**: Integrated a **System Status** module that pings the FastAPI backend.
+* **User-Centric Design**: Optimized for a **compact and wide layout**, ensuring all category information is visible without scrolling.
 
 ## ✍️ Reflection
 
-During this project, I learned how important it is to have a correctly configured and reproducible development environment. A major challenge was installing PyTorch with GPU support, as my RTX 50-series GPU required a test build with CUDA 12.8. This helped me understand how hardware and software compatibility affects machine learning workflows.
+During this project, we learned how important it is to have a correctly configured and reproducible development environment. A major challenge was installing PyTorch with GPU support, as my RTX 50-series GPU required a test build with CUDA 12.8. This helped me understand how hardware and software compatibility affects machine learning workflows.
 
 The verification script was kept intentionally simple to ensure clear failures if the environment is incorrect, making problems easier to detect. Solving the hardware alignment issues and modularizing the code into src/ provided deep insight into professional dependency management and troubleshooting in ML environments.
 
-### Streamlit Web Interface (Pending)
+### Streamlit Web Interface
 
 This project includes a Streamlit web interface that allows users to interact with the CIFAR-10 image classifier in a simple graphical UI.
 
