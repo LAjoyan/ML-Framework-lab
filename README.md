@@ -231,6 +231,5 @@ Model information display
 ## 🔗 Pull Requests & Code Reviews
 To satisfy the collaboration requirement, these links document our peer reviews and technical fixes:
 
-https://github.com/LAjoyan/ML-Framework-lab/pull/12 : Documentation of the graphical interface implementation.
-
-https://github.com/LAjoyan/ML-Framework-lab/pull/14 : Fixed model saving, ONNX export, and preprocessing logic.
+https://github.com/LAjoyan/ML-Framework-lab/pull/11 : Collaborative cross-environment documentation.
+https://github.com/LAjoyan/ML-Framework-lab/pull/19 : Graphical Interface & Layout Optimization.
