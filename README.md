@@ -231,5 +231,6 @@ Model information display
 ## 🔗 Pull Requests & Code Reviews
 To satisfy the collaboration requirement, these links document our peer reviews and technical fixes:
 
-https://github.com/LAjoyan/ML-Framework-lab/pull/11 : Collaborative cross-environment documentation.
+https://github.com/LAjoyan/ML-Framework-lab/pull/18 : Dockerized the Streamlit app for consistent deployment and communication with the FastAPI backend.
+
 https://github.com/LAjoyan/ML-Framework-lab/pull/19 : Graphical Interface & Layout Optimization.
